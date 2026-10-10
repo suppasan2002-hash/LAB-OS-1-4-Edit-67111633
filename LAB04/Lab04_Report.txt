@@ -1,0 +1,42 @@
+======================================================
+COE67-222 Operating Systems - Lab 04 Report
+Name: Suppasan Natsathan
+Student ID: 67111633
+======================================================
+
+1. The Deadlock (Phase 2):
+Model A acquired GPU 0 and then requested GPU 1. At the same time, 
+Model B acquired GPU 1 and then requested GPU 0. Model A could not get GPU 1 
+because Model B held it, while Model B could not get GPU 0 because Model A held it. 
+Each model waited for a resource held by the other, creating a circular wait. 
+The program did not reach "Cluster Execution Completed" until I interrupted it with Ctrl+C.
+
+2. The Solution (Phase 3):
+Both models were changed to request GPU 0 first and GPU 1 second. 
+Since they requested the resources in the same order, one model could acquire both GPUs, 
+finish, and release them before the other model proceeded. This removed the circular 
+wait condition and prevented the deadlock.
+
+3. Starvation vs Deadlock (Phase 4):
+The Deadlock script stopped making progress because both models waited indefinitely 
+for locks held by each other. The Starvation script continued running and finished 
+after three seconds, but the resource was not shared fairly. Greedy_Model_A 
+acquired it 22513 times, Greedy_Model_B acquired it 22495 times, and Polite_Model 
+acquired it only 296 times.
+
+A scheduler could use Aging by gradually increasing the priority of a job that 
+has waited for a long time. This would give Polite_Model a better chance to run 
+and acquire the shared resource.
+
+4. Deadlock Detection and Recovery:
+The timeout parameter limited how long Model A waited to acquire GPU 1. 
+When it could not acquire the lock within the timeout, the watchdog treated 
+this as a deadlock. Model A then released GPU 0, allowing Model B to acquire GPU 0, 
+finish its work, and release its locks. The program completed with the message 
+"System Finished (Recovered Successfully)."
+
+5. Banker's Algorithm:
+The system had [5, 4, 5] resources available. The algorithm found the safe
+ execution sequence Job_1 -> Job_2 -> Job_0, so the system was in a safe state.
+
+======================================================

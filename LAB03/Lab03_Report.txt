@@ -1,0 +1,32 @@
+======================================================
+COE67-222 Operating Systems - Lab 03 Report
+Name: Suppasan Natsathan
+Student ID: 67111633
+======================================================
+
+1. The Race Condition (Phase 2):
+The final weight can be less than the expected value because updating shared_weight is a read-modify-write operation and is not atomic. 
+The OS Scheduler can pause one thread after it reads the current value. Another thread may read and update that same old value.
+When both threads write their results, one update can overwrite the other. This causes lost updates. In my runs, 
+the expected value was 200, but the actual values included 101 and 102.
+
+2. Mutex vs. Semaphore (Phase 3):
+- The mutex protects the critical section where the Producer and Consumer access 
+the shared buffer and update their indexes. It ensures that only one thread accesses that section at a time.
+- The empty semaphore counts available buffer slots. The Producer waits when the buffer is full.
+- The full semaphore counts items in the buffer. The Consumer waits when the buffer is empty.
+A mutex alone only provides exclusive access. It does not count available slots or items, so it cannot by itself make the Producer wait when the buffer is full or make the Consumer wait when the buffer is empty.
+
+3. Deadlock Awareness:
+If the Producer acquired the mutex before calling empty.acquire(),
+ it could hold the mutex while waiting for an empty slot. If the buffer were full,
+  the Consumer would need that same mutex to remove an item and release an empty slot. 
+  The Consumer would be blocked waiting for the mutex, while the Producer would be blocked 
+  waiting for an empty slot. Neither thread could continue, causing a deadlock.
+
+4. IPC Pipe Observation:
+The DataLoader child process sent Image_Tensor_Batch_01 through the OS pipe. 
+The Trainer parent process waited for the data, received it, and printed that training 
+was complete. The parent also called os.wait() to collect the child's exit status.
+
+======================================================

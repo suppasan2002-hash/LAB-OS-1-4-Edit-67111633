@@ -1,0 +1,34 @@
+======================================================
+COE67-222 Operating Systems - Lab 02 Report
+Name: Suppasan Natsathan
+Student ID: 67111633
+======================================================
+
+1. Execution Time Comparison:
+- Sequential Time: 11.22 seconds
+- Multithreading Time: 10.51 seconds
+- Multiprocessing Time: 9.37 seconds
+
+2. System Observation (htop):
+The Codespace provided 2 logical CPUs. During sequential processing,
+the CPU work was handled by one process. Multithreading created multiple threads,
+but CPU utilization did not scale across the CPU cores as effectively 
+because Python's GIL limits how many threads can execute Python bytecode at the same time.
+Multiprocessing created separate processes, allowing the operating system to run CPU work on 
+both available logical CPUs.
+
+3. Analysis (The GIL):
+Multithreading did not make this CPU-bound task significantly faster 
+because the Python Global Interpreter Lock (GIL) allows only one thread at a time to execute Python bytecode in a process. 
+The other threads must wait for the GIL, so they cannot fully use multiple CPU cores at the same time.
+
+Multiprocessing is a better choice for CPU-bound tasks because each process has its own Python
+interpreter and GIL. The operating system can schedule these processes on different CPU cores,
+ allowing work to run in parallel. In this experiment, multiprocessing was the fastest at 9.37 seconds.
+  The Codespace had only 2 logical CPUs, so starting 16 processes also introduced scheduling overhead.
+
+4. Zombie Process:
+The child process finished while the parent was sleeping and had not called os.wait().
+ In htop, the child appeared with state Z (Zombie). The parent can prevent the zombie
+ from remaining by calling os.wait() to collect the child's exit status.
+======================================================

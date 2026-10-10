@@ -1,0 +1,24 @@
+======================================================
+COE67-222 Operating Systems - Lab 01 Report
+Name:Mr.suppasan Natsathan
+Student ID: 67111633
+======================================================
+
+1. Hardware Baseline:
+- Operating System: Ubuntu 24.04.5 LTS (Noble Numbat)
+- Kernel: Linux 6.8.0-1064-azure
+- CPU: AMD EPYC 7763; 2 logical CPUs allocated to the Codespace
+- Total RAM: 7.76 GiB (about 7.8 GiB in free -h)
+- Available RAM when checked: 6.0 GiB
+
+2. Observation:
+During the CPU stress test, htop showed the python stress_test.py process using about 96.8% 
+CPU, or approximately one logical CPU. The CPU summary bars also showed activity on the second CPU 
+because other Codespaces and VS Code processes were running. The stress test did not use all available CPUs.
+
+3. Analysis:
+Knowing the OS memory limit helps us choose a batch size that fits in RAM and reduces 
+the risk of running out of memory while loading a large dataset. Knowing the available 
+CPU count helps us choose an appropriate number of data-loading workers and estimate 
+how much parallel processing the machine can support. For a dataset of 500,000 images, 
+these choices affect memory use and data-loading speed.
